@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
 
 function USAFlag() {
   return (
@@ -174,84 +176,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-purple-50 text-slate-900">
+    <div className="min-h-screen bg-linear-to-br from-orange-50 via-white to-purple-50 text-slate-900">
 
       {/* Header */}
-      <header className="border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6">
-
-          <a href="/" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 text-lg font-black text-white shadow-md shadow-orange-200">
-              U
-            </div>
-
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
-                  Ultra<span className="text-orange-500">DS</span>
-                </h1>
-
-                <span className="rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-orange-600">
-                  Free Tool
-                </span>
-              </div>
-
-              <p className="text-xs text-slate-500">
-                eBay Profit Calculator
-              </p>
-            </div>
-          </a>
-
-          {/* Market */}
-          <div className="hidden items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm sm:flex">
-            <USAFlag />
-            <span>USA Market</span>
-            <span className="text-blue-300">•</span>
-            <span>eBay.com</span>
-            <span className="text-blue-300">•</span>
-            <span>USD</span>
-          </div>
-        </div>
-      </header>
+<Header />
 
       <main className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:py-12">
 
-        {/* Hero */}
-        <section className="mb-9">
-          <div className="mb-4 inline-flex items-center rounded-full bg-gradient-to-r from-orange-500 to-pink-500 px-4 py-1.5 text-xs font-bold tracking-wide text-white shadow-sm shadow-orange-200">
-            EBAY PROFIT CALCULATOR
-          </div>
-
-          <h2 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-5xl">
-            Know Your Profit
-            <span className="block bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-              Before You Sell
-            </span>
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-500">
-            Calculate your estimated eBay profit, fees, costs, profit
-            margin and ROI before listing your product.
-          </p>
-
-          <div className="mt-5 flex flex-wrap gap-3 text-xs font-semibold text-slate-500">
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 shadow-sm">
-              ✓ eBay Fees
-            </span>
-
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 shadow-sm">
-              ✓ Product Cost
-            </span>
-
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 shadow-sm">
-              ✓ Promoted Ads
-            </span>
-
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 shadow-sm">
-              ✓ Profit & ROI
-            </span>
-          </div>
-        </section>
+     {/* Hero */}
+<Hero />
 
         {/* Calculator Layout */}
         <div className="grid gap-6 lg:grid-cols-3">
@@ -306,7 +239,7 @@ function App() {
                       min="0"
                       value={sellingPrice}
                       onChange={(e) => setSellingPrice(e.target.value)}
-                      placeholder="100"
+                      placeholder="0"
                       className="w-full rounded-r-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                     />
                   </div>
@@ -331,7 +264,7 @@ function App() {
                       min="0"
                       value={purchasingPrice}
                       onChange={(e) => setPurchasingPrice(e.target.value)}
-                      placeholder="50"
+                      placeholder="0"
                       className="w-full rounded-r-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-100"
                     />
                   </div>
@@ -377,7 +310,7 @@ function App() {
                       min="0"
                       value={promotedAds}
                       onChange={(e) => setPromotedAds(e.target.value)}
-                      placeholder="5"
+                      placeholder="0"
                       className="w-full rounded-l-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-pink-500 focus:ring-4 focus:ring-pink-100"
                     />
 
@@ -498,7 +431,7 @@ function App() {
               </div>
 
               {/* Fee Information */}
-              <div className="mt-7 rounded-2xl border border-orange-100 bg-gradient-to-r from-orange-50 to-amber-50 p-5">
+              <div className="mt-7 rounded-2xl border border-orange-100 bg-linear-to-r from-orange-50 to-amber-50 p-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <div className="flex items-center gap-2">
@@ -720,7 +653,7 @@ function App() {
       {/* Brand */}
       <div className="max-w-sm">
         <a href="/" className="inline-flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 text-lg font-black text-white shadow-lg shadow-orange-500/20">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-orange-500 to-pink-500 text-lg font-black text-white shadow-lg shadow-orange-500/20">
             U
           </div>
 

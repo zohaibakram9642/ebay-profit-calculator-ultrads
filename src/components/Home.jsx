@@ -46,12 +46,15 @@ const features = [
 ];
 
 const learningResources = [
-  {
-    title: "Resources & Guides",
-    description:
-      "Practical guides and learning material for your eBay selling journey.",
-    icon: "📚",
-  },
+
+{
+  title: "Resources & Guides",
+  description:
+    "Practical guides on product research, profitability, listing safety and eBay store operations.",
+  icon: "📚",
+  href: "/resources-guides",
+},
+
   {
     title: "Mentorship",
     description:
@@ -326,30 +329,57 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-9 grid gap-5 md:grid-cols-3">
-              {learningResources.map((resource) => (
-                <div
-                  key={resource.title}
-                  className="rounded-2xl border border-slate-200 bg-white p-6"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-2xl">
-                    {resource.icon}
-                  </div>
+           
+<div className="mt-9 grid gap-5 md:grid-cols-3">
+  {learningResources.map((resource) => {
+    const cardContent = (
+      <div
+        className={`h-full rounded-2xl border bg-white p-6 ${
+          resource.href
+            ? "border-orange-200 transition hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-100/50"
+            : "border-slate-200"
+        }`}
+      >
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-2xl">
+          {resource.icon}
+        </div>
 
-                  <h3 className="mt-5 text-lg font-bold text-slate-900">
-                    {resource.title}
-                  </h3>
+        <h3 className="mt-5 text-lg font-bold text-slate-900">
+          {resource.title}
+        </h3>
 
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    {resource.description}
-                  </p>
+        <p className="mt-2 text-sm leading-6 text-slate-500">
+          {resource.description}
+        </p>
 
-                  <span className="mt-5 inline-flex rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-500">
-                    Coming soon
-                  </span>
-                </div>
-              ))}
-            </div>
+        <span
+          className={`mt-5 inline-flex rounded-full px-3 py-1.5 text-xs font-semibold ${
+            resource.href
+              ? "bg-green-50 text-green-700"
+              : "bg-slate-100 text-slate-500"
+          }`}
+        >
+          {resource.href ? "Browse guides →" : "Coming soon"}
+        </span>
+      </div>
+    );
+
+    return resource.href ? (
+      <a
+        key={resource.title}
+        href={resource.href}
+        className="block h-full rounded-2xl focus:outline-none focus:ring-4 focus:ring-orange-100"
+      >
+        {cardContent}
+      </a>
+    ) : (
+      <div key={resource.title} className="h-full">
+        {cardContent}
+      </div>
+    );
+  })}
+</div>
+
           </div>
         </section>
 

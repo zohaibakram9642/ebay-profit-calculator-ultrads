@@ -6,6 +6,8 @@ import Home from "./components/Home";
 import WinningProducts from "./components/WinningProducts";
 import VeroChecker from "./components/VeroChecker";
 import ProductAnalyzer from "./components/ProductAnalyzer";
+import ResourcesGuides from "./components/ResourcesGuides";
+
 
 
 
@@ -604,6 +606,7 @@ function ProfitCalculator() {
 }
 
 
+
 function App() {
   const pathname =
     window.location.pathname.replace(/\/+$/, "") || "/";
@@ -622,6 +625,10 @@ function App() {
 
   if (pathname === "/product-analyzer") {
     return <ProductAnalyzer />;
+  }
+
+  if (pathname === "/resources-guides") {
+    return <ResourcesGuides />;
   }
 
   return <Home />;

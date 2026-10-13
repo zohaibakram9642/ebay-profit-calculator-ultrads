@@ -8,8 +8,6 @@ const primaryLinks = [
 ];
 
 const upcomingFeatures = [
-  "Product Analyzer",
-  "Resources & Guides",
   "Mentorship",
   "Online Classes",
 ];
@@ -131,6 +129,18 @@ export default function Header({
   </span>
 </a>
 
+<a
+  href="/resources-guides"
+  onClick={() => setMoreOpen(false)}
+  className="flex items-center justify-between gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-orange-50 hover:text-orange-700"
+>
+  <span>Resources & Guides</span>
+  <span className="shrink-0 rounded-full bg-green-50 px-2 py-1 text-[10px] font-bold text-green-700">
+    Available
+  </span>
+</a>
+
+
 
 
                   {upcomingFeatures.map((label) => (
@@ -240,6 +250,17 @@ export default function Header({
   <span>Product Analyzer</span>
   <span className="rounded-full bg-orange-50 px-2 py-1 text-[10px] font-bold text-orange-700">
     Preview
+  </span>
+</a>
+
+<a
+  href="/resources-guides"
+  onClick={() => setMobileOpen(false)}
+  className="mb-1 flex items-center justify-between rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-orange-50"
+>
+  <span>Resources & Guides</span>
+  <span className="rounded-full bg-green-50 px-2 py-1 text-[10px] font-bold text-green-700">
+    Available
   </span>
 </a>
 

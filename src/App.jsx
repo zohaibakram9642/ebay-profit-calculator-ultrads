@@ -1,6 +1,8 @@
+
 import { useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import ProductDetails from "./components/ProductDetails";
 
 function USAFlag() {
   return (
@@ -10,9 +12,10 @@ function USAFlag() {
       viewBox="0 0 22 15"
       xmlns="http://www.w3.org/2000/svg"
       className="shrink-0 rounded-sm"
+      aria-label="USA flag"
+      role="img"
     >
       <rect width="22" height="15" fill="#fff" />
-
       <rect y="0" width="22" height="1.15" fill="#B22234" />
       <rect y="2.3" width="22" height="1.15" fill="#B22234" />
       <rect y="4.6" width="22" height="1.15" fill="#B22234" />
@@ -20,44 +23,31 @@ function USAFlag() {
       <rect y="9.2" width="22" height="1.15" fill="#B22234" />
       <rect y="11.5" width="22" height="1.15" fill="#B22234" />
       <rect y="13.8" width="22" height="1.2" fill="#B22234" />
-
       <rect width="9.5" height="8.1" fill="#3C3B6E" />
 
-      <circle cx="1.4" cy="1.3" r="0.35" fill="white" />
-      <circle cx="3.1" cy="1.3" r="0.35" fill="white" />
-      <circle cx="4.8" cy="1.3" r="0.35" fill="white" />
-      <circle cx="6.5" cy="1.3" r="0.35" fill="white" />
-      <circle cx="8.2" cy="1.3" r="0.35" fill="white" />
-
-      <circle cx="2.25" cy="2.6" r="0.35" fill="white" />
-      <circle cx="3.95" cy="2.6" r="0.35" fill="white" />
-      <circle cx="5.65" cy="2.6" r="0.35" fill="white" />
-      <circle cx="7.35" cy="2.6" r="0.35" fill="white" />
-
-      <circle cx="1.4" cy="3.9" r="0.35" fill="white" />
-      <circle cx="3.1" cy="3.9" r="0.35" fill="white" />
-      <circle cx="4.8" cy="3.9" r="0.35" fill="white" />
-      <circle cx="6.5" cy="3.9" r="0.35" fill="white" />
-      <circle cx="8.2" cy="3.9" r="0.35" fill="white" />
-
-      <circle cx="2.25" cy="5.2" r="0.35" fill="white" />
-      <circle cx="3.95" cy="5.2" r="0.35" fill="white" />
-      <circle cx="5.65" cy="5.2" r="0.35" fill="white" />
-      <circle cx="7.35" cy="5.2" r="0.35" fill="white" />
-
-      <circle cx="1.4" cy="6.5" r="0.35" fill="white" />
-      <circle cx="3.1" cy="6.5" r="0.35" fill="white" />
-      <circle cx="4.8" cy="6.5" r="0.35" fill="white" />
-      <circle cx="6.5" cy="6.5" r="0.35" fill="white" />
-      <circle cx="8.2" cy="6.5" r="0.35" fill="white" />
+      {Array.from({ length: 6 }, (_, row) =>
+        Array.from(
+          { length: row % 2 === 0 ? 5 : 4 },
+          (_, col) => (
+            <circle
+              key={`${row}-${col}`}
+              cx={row % 2 === 0 ? 1.4 + col * 1.7 : 2.25 + col * 1.7}
+              cy={1.3 + row * 1.04}
+              r="0.35"
+              fill="white"
+            />
+          )
+        )
+      )}
     </svg>
   );
 }
 
 function App() {
   const [sellingPrice, setSellingPrice] = useState("");
+  const [buyerShipping, setBuyerShipping] = useState("");
   const [purchasingPrice, setPurchasingPrice] = useState("");
-  const [shippingCost, setShippingCost] = useState("");
+  const [aliexpressShipping, setAliexpressShipping] = useState("");
   const [promotedAds, setPromotedAds] = useState("");
 
   const [numberOfOrders, setNumberOfOrders] = useState("1");
@@ -95,24 +85,28 @@ function App() {
   };
 
   const selling = Number(sellingPrice) || 0;
+  const buyerShippingAmount = Number(buyerShipping) || 0;
   const purchasing = Number(purchasingPrice) || 0;
-  const shipping = Number(shippingCost) || 0;
+  const aliexpressShippingAmount = Number(aliexpressShipping) || 0;
   const adsRate = Number(promotedAds) || 0;
 
-  const orders = Math.max(1, Number(numberOfOrders) || 1);
-
+  const orders = Math.max(1, Math.floor(Number(numberOfOrders) || 1));
   const hasCalculationInput = sellingPrice.trim() !== "";
 
   const ebayFeeRate = categoryFeeRates[category] ?? 13.6;
 
-  const totalSales = hasCalculationInput ? selling * orders : 0;
+  // Revenue includes the item price and shipping collected from buyers.
+  const totalSales = hasCalculationInput
+    ? (selling + buyerShippingAmount) * orders
+    : 0;
 
+  // This rate table is the calculator's current estimate.
   const finalValueFee = hasCalculationInput
     ? totalSales * (ebayFeeRate / 100)
     : 0;
 
   const perOrderFeeRate = hasCalculationInput
-    ? selling <= 10
+    ? selling + buyerShippingAmount <= 10
       ? 0.3
       : 0.4
     : 0;
@@ -129,18 +123,15 @@ function App() {
     ? purchasing * orders
     : 0;
 
+  // AliExpress shipping is an expense, not eBay revenue.
   const shippingTotal = hasCalculationInput
-    ? shipping * orders
+    ? aliexpressShippingAmount * orders
     : 0;
 
   const productAndShipping = productCostTotal + shippingTotal;
-
   const ebayFee = finalValueFee + orderFee;
 
-  const totalCosts =
-    productAndShipping +
-    ebayFee +
-    adsCost;
+  const totalCosts = productAndShipping + ebayFee + adsCost;
 
   const profit = hasCalculationInput
     ? totalSales - totalCosts
@@ -166,8 +157,9 @@ function App() {
 
   const resetCalculator = () => {
     setSellingPrice("");
+    setBuyerShipping("");
     setPurchasingPrice("");
-    setShippingCost("");
+    setAliexpressShipping("");
     setPromotedAds("");
     setNumberOfOrders("1");
     setSellerLevel("Above Standard");
@@ -177,23 +169,16 @@ function App() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-orange-50 via-white to-purple-50 text-slate-900">
-
-      {/* Header */}
-<Header />
+      <Header />
 
       <main className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:py-12">
+        <Hero />
 
-     {/* Hero */}
-<Hero />
-
-        {/* Calculator Layout */}
+        {/* Calculator layout */}
         <div className="grid gap-6 lg:grid-cols-3">
-
-          {/* Calculator */}
           <section className="lg:col-span-2">
             <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-7">
-
-              {/* Card Header */}
+              {/* Product card heading */}
               <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="flex items-center gap-2">
@@ -207,7 +192,8 @@ function App() {
                   </div>
 
                   <p className="mt-2 text-sm text-slate-500">
-                    Enter your product information to calculate your estimated profit.
+                    Enter your product information to calculate your
+                    estimated profit.
                   </p>
                 </div>
 
@@ -217,149 +203,70 @@ function App() {
                 </div>
               </div>
 
-              {/* Main Inputs */}
-              <div className="grid gap-5 md:grid-cols-2">
+              {/* Product input component */}
+              <ProductDetails
+                sellingPrice={sellingPrice}
+                setSellingPrice={setSellingPrice}
+                buyerShipping={buyerShipping}
+                setBuyerShipping={setBuyerShipping}
+                purchasingPrice={purchasingPrice}
+                setPurchasingPrice={setPurchasingPrice}
+                aliexpressShipping={aliexpressShipping}
+                setAliexpressShipping={setAliexpressShipping}
+                promotedAds={promotedAds}
+                setPromotedAds={setPromotedAds}
+              />
 
-                {/* Selling Price */}
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
-                    Selling Price
-                    <span className="ml-1 font-normal text-slate-400">
-                      (eBay Price)
-                    </span>
-                  </label>
-
-                  <div className="flex">
-                    <span className="flex items-center rounded-l-xl border border-r-0 border-slate-300 bg-orange-50 px-4 font-semibold text-orange-500">
-                      $
-                    </span>
-
-                    <input
-                      type="number"
-                      min="0"
-                      value={sellingPrice}
-                      onChange={(e) => setSellingPrice(e.target.value)}
-                      placeholder="0"
-                      className="w-full rounded-r-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
-                    />
-                  </div>
-                </div>
-
-                {/* Purchasing Price */}
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
-                    Purchasing Price
-                    <span className="ml-1 font-normal text-slate-400">
-                      (Product Cost)
-                    </span>
-                  </label>
-
-                  <div className="flex">
-                    <span className="flex items-center rounded-l-xl border border-r-0 border-slate-300 bg-purple-50 px-4 font-semibold text-purple-500">
-                      $
-                    </span>
-
-                    <input
-                      type="number"
-                      min="0"
-                      value={purchasingPrice}
-                      onChange={(e) => setPurchasingPrice(e.target.value)}
-                      placeholder="0"
-                      className="w-full rounded-r-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-purple-500 focus:ring-4 focus:ring-purple-100"
-                    />
-                  </div>
-                </div>
-
-                {/* Shipping */}
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
-                    Shipping Cost
-                    <span className="ml-1 font-normal text-slate-400">
-                      (Supplier → Customer)
-                    </span>
-                  </label>
-
-                  <div className="flex">
-                    <span className="flex items-center rounded-l-xl border border-r-0 border-slate-300 bg-blue-50 px-4 font-semibold text-blue-500">
-                      $
-                    </span>
-
-                    <input
-                      type="number"
-                      min="0"
-                      value={shippingCost}
-                      onChange={(e) => setShippingCost(e.target.value)}
-                      placeholder="0"
-                      className="w-full rounded-r-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-                    />
-                  </div>
-                </div>
-
-                {/* Promoted Ads */}
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-700">
-                    Promoted Ads
-                    <span className="ml-1 font-normal text-slate-400">
-                      (Ad Rate)
-                    </span>
-                  </label>
-
-                  <div className="flex">
-                    <input
-                      type="number"
-                      min="0"
-                      value={promotedAds}
-                      onChange={(e) => setPromotedAds(e.target.value)}
-                      placeholder="0"
-                      className="w-full rounded-l-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-pink-500 focus:ring-4 focus:ring-pink-100"
-                    />
-
-                    <span className="flex items-center rounded-r-xl border border-l-0 border-slate-300 bg-pink-50 px-4 font-semibold text-pink-500">
-                      %
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* eBay Settings */}
+              {/* Order and seller details */}
               <div className="mt-8 border-t border-slate-100 pt-7">
                 <div className="mb-5">
                   <h4 className="text-sm font-bold uppercase tracking-wide text-slate-700">
-                    eBay Settings
+                    Order & Seller Details
                   </h4>
 
                   <p className="mt-1 text-xs text-slate-400">
-                    Select the settings that match your eBay account.
+                    Select the details that match your eBay account.
                   </p>
                 </div>
 
                 <div className="grid gap-5 md:grid-cols-2">
-
-                  {/* Orders */}
+                  {/* Number of orders */}
                   <div>
-                    <label className="mb-2 block text-sm font-semibold text-slate-700">
-                      No. of Orders
+                    <label
+                      htmlFor="numberOfOrders"
+                      className="mb-2 block text-sm font-semibold text-slate-700"
+                    >
+                      Number of Orders
                     </label>
 
                     <input
+                      id="numberOfOrders"
                       type="number"
                       min="1"
                       step="1"
                       value={numberOfOrders}
-                      onChange={(e) => setNumberOfOrders(e.target.value)}
+                      onChange={(event) =>
+                        setNumberOfOrders(event.target.value)
+                      }
                       className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                     />
                   </div>
 
-                  {/* Store */}
+                  {/* Store subscription */}
                   <div>
-                    <label className="mb-2 block text-sm font-semibold text-slate-700">
+                    <label
+                      htmlFor="storeSubscription"
+                      className="mb-2 block text-sm font-semibold text-slate-700"
+                    >
                       eBay Store Subscription
                     </label>
 
                     <select
+                      id="storeSubscription"
                       value={storeSubscription}
-                      onChange={(e) => setStoreSubscription(e.target.value)}
+                      onChange={(event) =>
+                        setStoreSubscription(event.target.value)
+                      }
                       className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                     >
                       <option>No</option>
@@ -371,15 +278,21 @@ function App() {
                     </select>
                   </div>
 
-                  {/* Seller Level */}
+                  {/* Seller level */}
                   <div>
-                    <label className="mb-2 block text-sm font-semibold text-slate-700">
+                    <label
+                      htmlFor="sellerLevel"
+                      className="mb-2 block text-sm font-semibold text-slate-700"
+                    >
                       Seller Level
                     </label>
 
                     <select
+                      id="sellerLevel"
                       value={sellerLevel}
-                      onChange={(e) => setSellerLevel(e.target.value)}
+                      onChange={(event) =>
+                        setSellerLevel(event.target.value)
+                      }
                       className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                     >
                       <option>Top Rated</option>
@@ -388,49 +301,32 @@ function App() {
                     </select>
                   </div>
 
-                  {/* Category */}
+                  {/* Product category */}
                   <div>
-                    <label className="mb-2 block text-sm font-semibold text-slate-700">
+                    <label
+                      htmlFor="category"
+                      className="mb-2 block text-sm font-semibold text-slate-700"
+                    >
                       Product Category
                     </label>
 
                     <select
+                      id="category"
                       value={category}
-                      onChange={(e) => setCategory(e.target.value)}
+                      onChange={(event) => setCategory(event.target.value)}
                       className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
                     >
-                      <option>Most Categories</option>
-                      <option>Antiques</option>
-                      <option>Art</option>
-                      <option>Baby</option>
-                      <option>Books & Magazines</option>
-                      <option>Business & Industrial</option>
-                      <option>Cameras & Photo</option>
-                      <option>Cell Phones & Accessories</option>
-                      <option>Clothing, Shoes & Accessories</option>
-                      <option>Collectibles</option>
-                      <option>Computers/Tablets & Networking</option>
-                      <option>Consumer Electronics</option>
-                      <option>Crafts</option>
-                      <option>Dolls & Bears</option>
-                      <option>eBay Motors</option>
-                      <option>Health & Beauty</option>
-                      <option>Home & Garden</option>
-                      <option>Jewelry & Watches</option>
-                      <option>Musical Instruments & Gear</option>
-                      <option>Pet Supplies</option>
-                      <option>Pottery & Glass</option>
-                      <option>Sporting Goods</option>
-                      <option>Sports Mem, Cards & Fan Shop</option>
-                      <option>Toys & Hobbies</option>
-                      <option>Video Games & Consoles</option>
-                      <option>Everything Else</option>
+                      {Object.keys(categoryFeeRates).map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
               </div>
 
-              {/* Fee Information */}
+              {/* Current fee estimate */}
               <div className="mt-7 rounded-2xl border border-orange-100 bg-linear-to-r from-orange-50 to-amber-50 p-5">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
@@ -445,7 +341,7 @@ function App() {
                     </div>
 
                     <p className="mt-1 text-xs text-slate-500">
-                      Based on your selected product category
+                      Estimated rate for the selected category
                     </p>
                   </div>
 
@@ -457,7 +353,6 @@ function App() {
                 <div className="mt-4 grid grid-cols-1 gap-3 border-t border-orange-100 pt-4 text-xs text-slate-500 sm:grid-cols-2">
                   <div className="flex justify-between rounded-lg bg-white/70 px-3 py-2 sm:block">
                     <span>Final Value Fee</span>
-
                     <span className="ml-1 font-semibold text-slate-700">
                       {displayMoney(finalValueFee)}
                     </span>
@@ -465,7 +360,6 @@ function App() {
 
                   <div className="flex justify-between rounded-lg bg-white/70 px-3 py-2 sm:block">
                     <span>Per-Order Fee</span>
-
                     <span className="ml-1 font-semibold text-slate-700">
                       {displayMoney(orderFee)}
                     </span>
@@ -473,7 +367,7 @@ function App() {
                 </div>
               </div>
 
-              {/* Reset */}
+              {/* Reset calculator */}
               <div className="mt-6 flex justify-end">
                 <button
                   type="button"
@@ -486,10 +380,9 @@ function App() {
             </div>
           </section>
 
-          {/* Profit Summary */}
+          {/* Profit summary */}
           <aside>
             <div className="overflow-hidden rounded-3xl bg-slate-900 text-white shadow-xl shadow-slate-300/50">
-
               <div className="p-7">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-slate-400">
@@ -518,14 +411,13 @@ function App() {
 
               <div className="bg-slate-800 p-7">
                 <p className="mb-5 text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Cost Breakdown
+                  Fee Breakdown
                 </p>
 
                 <div className="mb-4 flex justify-between gap-4">
                   <span className="text-sm text-slate-400">
                     Final Value Fee
                   </span>
-
                   <span className="font-semibold">
                     {displayMoney(finalValueFee)}
                   </span>
@@ -533,9 +425,15 @@ function App() {
 
                 <div className="mb-4 flex justify-between gap-4">
                   <span className="text-sm text-slate-400">
+                    International Fee
+                  </span>
+                  <span className="font-semibold">—</span>
+                </div>
+
+                <div className="mb-4 flex justify-between gap-4">
+                  <span className="text-sm text-slate-400">
                     Per-Order Fee
                   </span>
-
                   <span className="font-semibold">
                     {displayMoney(orderFee)}
                   </span>
@@ -543,9 +441,8 @@ function App() {
 
                 <div className="mb-4 flex justify-between gap-4">
                   <span className="text-sm text-slate-400">
-                    Promoted Ads
+                    Promoted Ads Fee
                   </span>
-
                   <span className="font-semibold">
                     {displayMoney(adsCost)}
                   </span>
@@ -553,9 +450,8 @@ function App() {
 
                 <div className="mb-5 flex justify-between gap-4">
                   <span className="text-sm text-slate-400">
-                    Product + Shipping
+                    Product + AliExpress Shipping
                   </span>
-
                   <span className="font-semibold">
                     {displayMoney(productAndShipping)}
                   </span>
@@ -563,10 +459,7 @@ function App() {
 
                 <div className="border-t border-slate-700 pt-5">
                   <div className="flex justify-between gap-4">
-                    <span className="font-bold">
-                      Total Costs
-                    </span>
-
+                    <span className="font-bold">Total Costs</span>
                     <span className="font-bold">
                       {displayMoney(totalCosts)}
                     </span>
@@ -575,12 +468,10 @@ function App() {
               </div>
             </div>
 
-            {/* Statistics */}
+            {/* ROI and net profit */}
             <div className="mt-5 grid grid-cols-2 gap-4">
               <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-                <p className="text-xs font-medium text-blue-500">
-                  ROI
-                </p>
+                <p className="text-xs font-medium text-blue-500">ROI</p>
 
                 <p
                   className={`mt-1 text-2xl font-extrabold ${
@@ -610,7 +501,7 @@ function App() {
               </div>
             </div>
 
-            {/* Trust Note */}
+            {/* Information note */}
             <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="flex gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-600">
@@ -633,7 +524,7 @@ function App() {
           </aside>
         </div>
 
-        {/* Mobile Market Indicator */}
+        {/* Mobile market indicator */}
         <div className="mt-6 flex items-center justify-center sm:hidden">
           <div className="flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-xs font-semibold text-blue-700">
             <USAFlag />
@@ -646,89 +537,60 @@ function App() {
         </div>
       </main>
 
-<footer className="mt-10 bg-slate-950 text-white">
-  <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6">
-    <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+      {/* Footer */}
+      <footer className="mt-10 bg-slate-950 text-white">
+        <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6">
+          <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-sm">
+              <a href="/" className="inline-flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-orange-500 to-pink-500 text-lg font-black text-white shadow-lg shadow-orange-500/20">
+                  U
+                </div>
 
-      {/* Brand */}
-      <div className="max-w-sm">
-        <a href="/" className="inline-flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-orange-500 to-pink-500 text-lg font-black text-white shadow-lg shadow-orange-500/20">
-            U
+                <span className="text-xl font-extrabold tracking-tight">
+                  Ultra<span className="text-orange-400">DS</span>
+                </span>
+              </a>
+
+              <p className="mt-4 text-sm leading-6 text-slate-400">
+                Practical features for eBay sellers to research products,
+                understand profitability and grow their dropshipping business.
+              </p>
+
+              <div className="mt-5 inline-flex rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-400">
+                eBay Dropshipping Suite
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-bold text-white">Quick Links</h3>
+
+              <nav className="mt-4 flex flex-col gap-3 text-sm text-slate-400">
+                <a href="/" className="transition hover:text-orange-400">
+                  Home
+                </a>
+                <a href="#" className="transition hover:text-orange-400">
+                  About
+                </a>
+                <a href="#" className="transition hover:text-orange-400">
+                  Contact
+                </a>
+                <a href="#" className="transition hover:text-orange-400">
+                  Privacy Policy
+                </a>
+                <a href="#" className="transition hover:text-orange-400">
+                  Terms of Service
+                </a>
+              </nav>
+            </div>
           </div>
 
-          <span className="text-xl font-extrabold tracking-tight">
-            Ultra<span className="text-orange-400">DS</span>
-          </span>
-        </a>
-
-        <p className="mt-4 text-sm leading-6 text-slate-400">
-          Practical tools for eBay sellers to research products,
-          understand profitability and grow their dropshipping business.
-        </p>
-
-        <div className="mt-5 inline-flex rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-semibold text-slate-400">
-          eBay Dropshipping Suite
+          <div className="mt-10 flex flex-col gap-3 border-t border-slate-800 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} UltraDS. All rights reserved.</p>
+            <p>Built for eBay sellers.</p>
+          </div>
         </div>
-      </div>
-
-      {/* Links */}
-      <div>
-        <h3 className="text-sm font-bold text-white">
-          Quick Links
-        </h3>
-
-        <nav className="mt-4 flex flex-col gap-3 text-sm text-slate-400">
-          <a
-            href="/"
-            className="transition hover:text-orange-400"
-          >
-            Home
-          </a>
-
-          <a
-            href="#"
-            className="transition hover:text-orange-400"
-          >
-            About
-          </a>
-
-          <a
-            href="#"
-            className="transition hover:text-orange-400"
-          >
-            Contact
-          </a>
-
-          <a
-            href="#"
-            className="transition hover:text-orange-400"
-          >
-            Privacy Policy
-          </a>
-
-          <a
-            href="#"
-            className="transition hover:text-orange-400"
-          >
-            Terms of Service
-          </a>
-        </nav>
-      </div>
-    </div>
-
-    {/* Bottom */}
-    <div className="mt-10 flex flex-col gap-3 border-t border-slate-800 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-      <p>
-        © {new Date().getFullYear()} UltraDS. All rights reserved.
-      </p>
-
-      <p>
-        Built for eBay sellers.
-      </p>
-    </div>
-  </div>
-</footer>
+      </footer>
     </div>
   );
 }

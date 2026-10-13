@@ -2,13 +2,18 @@
 import Header from "./Header";
 
 const features = [
-  {
-    title: "Winning Products",
-    description:
-      "Discover product opportunities and develop a more informed eBay selling strategy.",
-    icon: "🔥",
-    status: "Coming soon",
-  },
+ 
+
+{
+  title: "Winning Products",
+  description:
+    "Explore product opportunities and compare example supplier costs with target selling prices.",
+  icon: "🔥",
+  status: "Preview",
+  href: "/winning-products",
+},
+
+
   {
     title: "Profit Calculator",
     description:
@@ -182,64 +187,75 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="mt-5 space-y-3">
-                  <div className="flex items-center gap-4 rounded-2xl border border-green-100 bg-green-50/70 p-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-xl shadow-sm">
-                      🧮
-                    </div>
+                
+<div className="mt-5 space-y-3">
+  {/* Working feature: Profit Calculator */}
+  <a
+    href="/profit-calculator"
+    className="group flex items-center gap-4 rounded-2xl border border-green-100 bg-green-50/70 p-4 transition hover:-translate-y-0.5 hover:border-green-300 hover:bg-green-50 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-green-100"
+  >
+    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-xl shadow-sm">
+      🧮
+    </div>
 
-                    <div className="min-w-0 flex-1">
-                      <p className="font-bold text-slate-800">
-                        Profit Calculator
-                      </p>
-                      <p className="mt-1 text-xs text-slate-500">
-                        Estimate your selling profit
-                      </p>
-                    </div>
+    <div className="min-w-0 flex-1">
+      <p className="font-bold text-slate-800">
+        Profit Calculator
+      </p>
+      <p className="mt-1 text-xs text-slate-500">
+        Estimate your selling profit
+      </p>
+    </div>
 
-                    <span className="rounded-full bg-green-100 px-2 py-1 text-[10px] font-bold text-green-700">
-                      FREE
-                    </span>
-                  </div>
+    <span className="rounded-full bg-green-100 px-2 py-1 text-[10px] font-bold text-green-700">
+      FREE
+    </span>
+  </a>
 
-                  <div className="flex items-center gap-4 rounded-2xl border border-slate-100 p-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-xl">
-                      🔥
-                    </div>
+  {/* Working feature: Winning Products */}
+  <a
+    href="/winning-products"
+    className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition hover:-translate-y-0.5 hover:border-orange-200 hover:bg-orange-50/40 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-orange-100"
+  >
+    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-xl">
+      🔥
+    </div>
 
-                    <div className="min-w-0 flex-1">
-                      <p className="font-bold text-slate-800">
-                        Winning Products
-                      </p>
-                      <p className="mt-1 text-xs text-slate-500">
-                        Discover product opportunities
-                      </p>
-                    </div>
+    <div className="min-w-0 flex-1">
+      <p className="font-bold text-slate-800">
+        Winning Products
+      </p>
+      <p className="mt-1 text-xs text-slate-500">
+        Explore example product opportunities
+      </p>
+    </div>
 
-                    <span className="text-[10px] font-semibold text-slate-400">
-                      PLANNED
-                    </span>
-                  </div>
+    <span className="text-[10px] font-semibold text-orange-600">
+      PREVIEW
+    </span>
+  </a>
 
-                  <div className="flex items-center gap-4 rounded-2xl border border-slate-100 p-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-xl">
-                      🛡️
-                    </div>
+  {/* Planned feature: not clickable yet */}
+  <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4">
+    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-xl">
+      🛡️
+    </div>
 
-                    <div className="min-w-0 flex-1">
-                      <p className="font-bold text-slate-800">
-                        Listing Protection
-                      </p>
-                      <p className="mt-1 text-xs text-slate-500">
-                        VERO and copyright risk checks
-                      </p>
-                    </div>
+    <div className="min-w-0 flex-1">
+      <p className="font-bold text-slate-800">
+        Listing Protection
+      </p>
+      <p className="mt-1 text-xs text-slate-500">
+        VERO and copyright risk checks
+      </p>
+    </div>
 
-                    <span className="text-[10px] font-semibold text-slate-400">
-                      PLANNED
-                    </span>
-                  </div>
-                </div>
+    <span className="text-[10px] font-semibold text-slate-400">
+      COMING SOON
+    </span>
+  </div>
+</div>
+
 
                 <div className="mt-5 rounded-xl bg-slate-900 p-4 text-white">
                   <p className="text-sm font-bold">One platform. More possibilities.</p>

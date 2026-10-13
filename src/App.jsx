@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductDetails from "./components/ProductDetails";
 import Home from "./components/Home";
+import WinningProducts from "./components/WinningProducts";
 
 function USAFlag() {
   return (
@@ -600,6 +601,7 @@ function ProfitCalculator() {
 }
 
 
+
 function App() {
   const pathname =
     window.location.pathname.replace(/\/+$/, "") || "/";
@@ -608,8 +610,13 @@ function App() {
     return <ProfitCalculator />;
   }
 
+  if (pathname === "/winning-products") {
+    return <WinningProducts />;
+  }
+
   return <Home />;
 }
 
 export default App;
+
 

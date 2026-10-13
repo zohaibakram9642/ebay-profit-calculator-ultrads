@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -6,6 +5,8 @@ import ProductDetails from "./components/ProductDetails";
 import Home from "./components/Home";
 import WinningProducts from "./components/WinningProducts";
 import VeroChecker from "./components/VeroChecker";
+import ProductAnalyzer from "./components/ProductAnalyzer";
+
 
 
 function USAFlag() {
@@ -603,7 +604,6 @@ function ProfitCalculator() {
 }
 
 
-
 function App() {
   const pathname =
     window.location.pathname.replace(/\/+$/, "") || "/";
@@ -618,6 +618,10 @@ function App() {
 
   if (pathname === "/vero-checker") {
     return <VeroChecker />;
+  }
+
+  if (pathname === "/product-analyzer") {
+    return <ProductAnalyzer />;
   }
 
   return <Home />;

@@ -33,13 +33,16 @@ const features = [
   href: "/vero-checker",
 },
 
-  {
-    title: "Product Analyzer",
-    description:
-      "Evaluate product opportunities before deciding what deserves your attention.",
-    icon: "🔎",
-    status: "Coming soon",
-  },
+
+{
+  title: "Product Analyzer",
+  description:
+    "Evaluate a product's estimated profitability using your own selling price, supplier cost and expense assumptions.",
+  icon: "🔎",
+  status: "Preview",
+  href: "/product-analyzer",
+},
+
 ];
 
 const learningResources = [

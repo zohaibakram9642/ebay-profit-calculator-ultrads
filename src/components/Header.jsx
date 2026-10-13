@@ -120,6 +120,18 @@ export default function Header({
   </span>
 </a>
 
+<a
+  href="/product-analyzer"
+  onClick={() => setMoreOpen(false)}
+  className="flex items-center justify-between gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-orange-50 hover:text-orange-700"
+>
+  <span>Product Analyzer</span>
+  <span className="shrink-0 rounded-full bg-orange-50 px-2 py-1 text-[10px] font-bold text-orange-700">
+    Preview
+  </span>
+</a>
+
+
 
                   {upcomingFeatures.map((label) => (
                     <button
@@ -219,6 +231,18 @@ export default function Header({
     Preview
   </span>
 </a>
+
+<a
+  href="/product-analyzer"
+  onClick={() => setMobileOpen(false)}
+  className="mb-1 flex items-center justify-between rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-orange-50"
+>
+  <span>Product Analyzer</span>
+  <span className="rounded-full bg-orange-50 px-2 py-1 text-[10px] font-bold text-orange-700">
+    Preview
+  </span>
+</a>
+
 
 
             {upcomingFeatures.map((label) => (

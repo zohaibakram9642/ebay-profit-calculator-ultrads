@@ -7,9 +7,7 @@ const primaryLinks = [
   { label: "Profit Calculator", href: "/profit-calculator" },
 ];
 
-const upcomingFeatures = [
-  "Online Classes",
-];
+const upcomingFeatures = [];
 
 export default function Header({
   isHome = false,
@@ -150,6 +148,17 @@ export default function Header({
   </span>
 </a>
 
+<a
+  href="/online-classes"
+  onClick={() => setMoreOpen(false)}
+  className="flex items-center justify-between gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-orange-50 hover:text-orange-700"
+>
+  <span>Online Classes</span>
+  <span className="shrink-0 rounded-full bg-amber-50 px-2 py-1 text-[10px] font-bold text-amber-700">
+    Preview
+  </span>
+</a>
+
 
 
 
@@ -280,6 +289,17 @@ export default function Header({
   className="mb-1 flex items-center justify-between rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-orange-50"
 >
   <span>Mentorship</span>
+  <span className="rounded-full bg-amber-50 px-2 py-1 text-[10px] font-bold text-amber-700">
+    Preview
+  </span>
+</a>
+
+<a
+  href="/online-classes"
+  onClick={() => setMobileOpen(false)}
+  className="mb-1 flex items-center justify-between rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-orange-50"
+>
+  <span>Online Classes</span>
   <span className="rounded-full bg-amber-50 px-2 py-1 text-[10px] font-bold text-amber-700">
     Preview
   </span>

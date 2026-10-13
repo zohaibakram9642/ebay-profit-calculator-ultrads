@@ -65,12 +65,15 @@ const learningResources = [
   actionLabel: "Explore mentorship →",
 },
 
-  {
-    title: "Online Classes",
-    description:
-      "Discover course details, class information and enrollment opportunities.",
-    icon: "🖥️",
-  },
+{
+  title: "Online Classes",
+  description:
+    "Explore proposed eBay dropshipping courses covering product research, listing safety, profitability and store operations.",
+  icon: "🖥️",
+  href: "/online-classes",
+  actionLabel: "Explore classes →",
+},
+
 ];
 
 function FeatureCard({ feature }) {

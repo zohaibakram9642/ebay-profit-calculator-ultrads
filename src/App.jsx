@@ -8,9 +8,7 @@ import VeroChecker from "./components/VeroChecker";
 import ProductAnalyzer from "./components/ProductAnalyzer";
 import ResourcesGuides from "./components/ResourcesGuides";
 import Mentorship from "./components/Mentorship";
-
-
-
+import OnlineClasses from "./components/OnlineClasses";
 
 
 function USAFlag() {
@@ -635,6 +633,9 @@ function App() {
 
   if (pathname === "/mentorship") {
     return <Mentorship />;
+  }
+    if (pathname === "/online-classes") {
+    return <OnlineClasses />;
   }
 
   return <Home />;

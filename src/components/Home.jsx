@@ -23,13 +23,16 @@ const features = [
     href: "/profit-calculator",
     free: true,
   },
-  {
-    title: "VERO & Copyright Checker",
-    description:
-      "Help identify potential intellectual property risks before listing products.",
-    icon: "🛡️",
-    status: "Coming soon",
-  },
+
+{
+  title: "VERO & Copyright Checker",
+  description:
+    "Prepare product information for a future review of potential brand, trademark, copyright and listing-policy concerns.",
+  icon: "🛡️",
+  status: "Preview",
+  href: "/vero-checker",
+},
+
   {
     title: "Product Analyzer",
     description:
@@ -236,24 +239,29 @@ export default function Home() {
   </a>
 
   {/* Planned feature: not clickable yet */}
-  <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4">
-    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-xl">
-      🛡️
-    </div>
-
-    <div className="min-w-0 flex-1">
-      <p className="font-bold text-slate-800">
-        Listing Protection
-      </p>
-      <p className="mt-1 text-xs text-slate-500">
-        VERO and copyright risk checks
-      </p>
-    </div>
-
-    <span className="text-[10px] font-semibold text-slate-400">
-      COMING SOON
-    </span>
+ 
+<a
+  href="/vero-checker"
+  className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition hover:-translate-y-0.5 hover:border-purple-200 hover:bg-purple-50/40 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-purple-100"
+>
+  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-xl">
+    🛡️
   </div>
+
+  <div className="min-w-0 flex-1">
+    <p className="font-bold text-slate-800">
+      Listing Protection
+    </p>
+    <p className="mt-1 text-xs text-slate-500">
+      VERO and copyright review preview
+    </p>
+  </div>
+
+  <span className="text-[10px] font-semibold text-orange-600">
+    PREVIEW
+  </span>
+</a>
+
 </div>
 
 

@@ -5,6 +5,8 @@ import Hero from "./components/Hero";
 import ProductDetails from "./components/ProductDetails";
 import Home from "./components/Home";
 import WinningProducts from "./components/WinningProducts";
+import VeroChecker from "./components/VeroChecker";
+
 
 function USAFlag() {
   return (
@@ -614,9 +616,14 @@ function App() {
     return <WinningProducts />;
   }
 
+  if (pathname === "/vero-checker") {
+    return <VeroChecker />;
+  }
+
   return <Home />;
 }
 
 export default App;
+
 
 

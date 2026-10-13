@@ -8,7 +8,6 @@ const primaryLinks = [
 ];
 
 const upcomingFeatures = [
-  "VERO & Copyright Checker",
   "Product Analyzer",
   "Resources & Guides",
   "Mentorship",
@@ -109,6 +108,18 @@ export default function Header({
                   <p className="px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-400">
                     Explore UltraDS
                   </p>
+                  
+<a
+  href="/vero-checker"
+  onClick={() => setMoreOpen(false)}
+  className="flex items-center justify-between gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-orange-50 hover:text-orange-700"
+>
+  <span>VERO & Copyright Checker</span>
+  <span className="shrink-0 rounded-full bg-orange-50 px-2 py-1 text-[10px] font-bold text-orange-700">
+    Preview
+  </span>
+</a>
+
 
                   {upcomingFeatures.map((label) => (
                     <button
@@ -197,6 +208,18 @@ export default function Header({
             <p className="px-3 pb-1 pt-3 text-xs font-bold uppercase tracking-wide text-slate-400">
               More features
             </p>
+            
+<a
+  href="/vero-checker"
+  onClick={() => setMobileOpen(false)}
+  className="mb-1 flex items-center justify-between rounded-xl px-3 py-3 text-sm font-semibold text-slate-700 hover:bg-orange-50"
+>
+  <span>VERO & Copyright Checker</span>
+  <span className="rounded-full bg-orange-50 px-2 py-1 text-[10px] font-bold text-orange-700">
+    Preview
+  </span>
+</a>
+
 
             {upcomingFeatures.map((label) => (
               <button

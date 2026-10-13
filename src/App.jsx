@@ -7,6 +7,8 @@ import WinningProducts from "./components/WinningProducts";
 import VeroChecker from "./components/VeroChecker";
 import ProductAnalyzer from "./components/ProductAnalyzer";
 import ResourcesGuides from "./components/ResourcesGuides";
+import Mentorship from "./components/Mentorship";
+
 
 
 
@@ -631,10 +633,15 @@ function App() {
     return <ResourcesGuides />;
   }
 
+  if (pathname === "/mentorship") {
+    return <Mentorship />;
+  }
+
   return <Home />;
 }
 
 export default App;
+
 
 
 

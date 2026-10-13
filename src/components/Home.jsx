@@ -55,12 +55,16 @@ const learningResources = [
   href: "/resources-guides",
 },
 
-  {
-    title: "Mentorship",
-    description:
-      "Explore mentorship options and get information about guided learning.",
-    icon: "🎓",
-  },
+
+{
+  title: "Mentorship",
+  description:
+    "Explore the planned mentorship experience for product research, profitability planning, listing safety and eBay store operations.",
+  icon: "🎓",
+  href: "/mentorship",
+  actionLabel: "Explore mentorship →",
+},
+
   {
     title: "Online Classes",
     description:
@@ -359,7 +363,11 @@ export default function Home() {
               : "bg-slate-100 text-slate-500"
           }`}
         >
-          {resource.href ? "Browse guides →" : "Coming soon"}
+          
+{resource.href
+  ? resource.actionLabel || "Explore feature →"
+  : "Coming soon"}
+
         </span>
       </div>
     );

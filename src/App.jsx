@@ -3,6 +3,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import ProductDetails from "./components/ProductDetails";
+import Home from "./components/Home";
 
 function USAFlag() {
   return (
@@ -43,7 +44,7 @@ function USAFlag() {
   );
 }
 
-function App() {
+function ProfitCalculator() {
   const [sellingPrice, setSellingPrice] = useState("");
   const [buyerShipping, setBuyerShipping] = useState("");
   const [purchasingPrice, setPurchasingPrice] = useState("");
@@ -598,4 +599,17 @@ function App() {
   );
 }
 
+
+function App() {
+  const pathname =
+    window.location.pathname.replace(/\/+$/, "") || "/";
+
+  if (pathname === "/profit-calculator") {
+    return <ProfitCalculator />;
+  }
+
+  return <Home />;
+}
+
 export default App;
+

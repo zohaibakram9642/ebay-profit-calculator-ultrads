@@ -7,7 +7,7 @@ const navigationItems = [
   {
     label: "Profit Calculator",
     icon: "🧮",
-    href: "#profit-calculator",
+  href: "/profit-calculator",
     ready: true,
     free: true,
   },
@@ -68,7 +68,7 @@ function USAFlag() {
   );
 }
 
-export default function Header() {
+export default function Header({ isHome = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [notice, setNotice] = useState("");
 
@@ -90,21 +90,25 @@ export default function Header() {
               U
             </div>
 
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[22px] font-extrabold tracking-tight text-slate-950">
-                  Ultra<span className="text-orange-500">DS</span>
-                </span>
+            
+<div className="min-w-0">
+  <div className="flex flex-wrap items-center gap-2">
+    <span className="text-[22px] font-extrabold tracking-tight text-slate-950">
+      Ultra<span className="text-orange-500">DS</span>
+    </span>
 
-                <span className="rounded-md bg-orange-50 px-2 py-1 text-[10px] font-bold uppercase text-orange-600">
-                  Free Feature
-                </span>
-              </div>
+    {!isHome && (
+      <span className="rounded-md bg-orange-50 px-2 py-1 text-[10px] font-bold uppercase text-orange-600">
+        Free Feature
+      </span>
+    )}
+  </div>
 
-              <p className="text-xs text-slate-500">
-                eBay Profit Calculator
-              </p>
-            </div>
+  <p className="text-xs text-slate-500">
+    {isHome ? "eBay Dropshipping Suite" : "eBay Profit Calculator"}
+  </p>
+</div>
+
           </a>
 
           {/* Market indicator and navigation toggle */}

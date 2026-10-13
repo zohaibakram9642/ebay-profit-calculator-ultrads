@@ -175,7 +175,10 @@ function App() {
         <Hero />
 
         {/* Calculator layout */}
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div
+  id="profit-calculator"
+  className="grid gap-6 lg:grid-cols-3"
+>
           <section className="lg:col-span-2">
             <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-7">
               {/* Product card heading */}
